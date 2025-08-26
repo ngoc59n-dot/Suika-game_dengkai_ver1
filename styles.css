@@ -52,12 +52,17 @@ body {
 }
 
 .idol-img {
-  width: 64px;         
+  width: 64px;
   height: 64px;
-  object-fit: contain; 
-  position: absolute;  
+  object-fit: cover;         
+  border-radius: 50%;        
+  image-rendering: crisp-edges; 
+  filter: contrast(115%) brightness(110%); 
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.4); 
+  position: absolute;
   top: 0;
   left: 0;
-  z-index: 2;          
+  z-index: 2;
 }
+
 
