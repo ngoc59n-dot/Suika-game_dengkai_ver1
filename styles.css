@@ -56,7 +56,7 @@ body {
   height: 64px;
   object-fit: cover;         
   border-radius: 50%;        
-  image-rendering: pixelated; 
+  image-rendering: crisp-edges; 
   filter: contrast(115%) brightness(110%); 
   box-shadow: 0 0 6px rgba(255, 255, 255, 0.4); 
   position: absolute;
