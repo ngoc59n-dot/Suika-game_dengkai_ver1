@@ -17,8 +17,12 @@ const GAME_OVER_LINE_Y = canvas.height * 0.2; // 20% from top // 80% of canvas h
 let WALL_THICKNESS = Math.max(40, Math.floor(canvas.height * 0.05));
 
 function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Xóa tất cả vật thể cũ
+    Matter.World.clear(world, false);
+    createWalls();
 }
 
 window.addEventListener("resize", resizeCanvas);
@@ -84,6 +88,10 @@ function init() {
     // Create walls
     function getWallThickness() {
     return Math.max(30, canvas.width * 0.02);
+    }
+    createWalls();
+    Events.on(engine, 'collisionStart', handleCollision);
+    requestAnimationFrame(gameLoop);
 }
   
 function createWalls() {
@@ -116,14 +124,6 @@ function createWalls() {
     ];
 
     Matter.World.add(world, walls);
-}
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    // Xóa tất cả vật thể cũ
-    Matter.World.clear(world, false);
-    createWalls();
 }
 
 
@@ -168,7 +168,7 @@ function handleMouseMove(e) {
         const currentType = currentDice.label;
         Body.setPosition(currentDice, {
             x: Math.min(Math.max(x, DICE_TYPES[currentType].radius), 
-                CANVAS_WIDTH - DICE_TYPES[currentType].radius),
+                canvas.width - DICE_TYPES[currentType].radius),
             y: 50
         });
     }
@@ -278,7 +278,7 @@ function createNextDice() {
         nextDiceType
     });
     
-    const dice = createDice(CANVAS_WIDTH/2, 50, nextDiceType, true); // Mark as preview
+    const dice = createDice(canvas.width/2, 50, nextDiceType, true); // Mark as preview
     if (dice) {
         dice.isStatic = true;
         currentDice = dice;
