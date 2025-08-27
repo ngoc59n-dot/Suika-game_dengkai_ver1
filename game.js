@@ -11,7 +11,7 @@ const ctx = canvas.getContext("2d");
 // ---- CANVAS full màn hình
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-const GAME_OVER_LINE_Y = canvas.height * 0.2; // 20% from top // 80% of canvas height
+const GAME_OVER_LINE_Y = canvas.height * 0.2; // 20% từ đỉnh
 
 // ---- WALL_THICKNESS linh hoạt
 let WALL_THICKNESS = Math.max(40, Math.floor(canvas.height * 0.05));
@@ -27,22 +27,26 @@ function resizeCanvas() {
     }
 }
 
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
+// Sửa lỗi: Đảm bảo chỉ gọi resizeCanvas sau khi 'world' được khởi tạo
+window.addEventListener("resize", () => {
+    if (engine && world) {
+        resizeCanvas();
+    }
+});
 
-const DICE_TYPES = {// Dice types and their properties
-  'D2':       { radius: 25, img: '/Suika-game_dengkai_ver1/img/idol1.png', next: 'D4' },
-  'D4':       { radius: 30, img: '/Suika-game_dengkai_ver1/img/idol2.png', next: 'D6' },
-  'D6':       { radius: 35, img: '/Suika-game_dengkai_ver1/img/idol3.png', next: 'D8' },
-  'D8':       { radius: 40, img: '/Suika-game_dengkai_ver1/img/idol4.png', next: 'D10' },
-  'D10':      { radius: 45, img: '/Suika-game_dengkai_ver1/img/idol5.png', next: 'D12' },
-  'D12':      { radius: 50, img: '/Suika-game_dengkai_ver1/img/idol6.png', next: 'D16' },
-  'D16':      { radius: 55, img: '/Suika-game_dengkai_ver1/img/idol7.png', next: 'D20' },
-  'D20':      { radius: 60, img: '/Suika-game_dengkai_ver1/img/idol8.png', next: 'D100' },
-  'D100':     { radius: 70, img: '/Suika-game_dengkai_ver1/img/idol9.png', next: 'D256' },
-  'D256':     { radius: 80, img: '/Suika-game_dengkai_ver1/img/idol10.png', next: 'D1000' },
-  'D1000':    { radius: 90, img: '/Suika-game_dengkai_ver1/img/idol11.png', next: 'DULTIMATE' },
-  'DULTIMATE':{ radius: 100, img: '/Suika-game_dengkai_ver1/img/idol12.png', next: null }
+const DICE_TYPES = {
+  'D2':       { radius: 25, img: './img/idol1.png', next: 'D4' },
+  'D4':       { radius: 30, img: './img/idol2.png', next: 'D6' },
+  'D6':       { radius: 35, img: './img/idol3.png', next: 'D8' },
+  'D8':       { radius: 40, img: './img/idol4.png', next: 'D10' },
+  'D10':      { radius: 45, img: './img/idol5.png', next: 'D12' },
+  'D12':      { radius: 50, img: './img/idol6.png', next: 'D16' },
+  'D16':      { radius: 55, img: './img/idol7.png', next: 'D20' },
+  'D20':      { radius: 60, img: './img/idol8.png', next: 'D100' },
+  'D100':     { radius: 70, img: './img/idol9.png', next: 'D256' },
+  'D256':     { radius: 80, img: './img/idol10.png', next: 'D1000' },
+  'D1000':    { radius: 90, img: './img/idol11.png', next: 'DULTIMATE' },
+  'DULTIMATE':{ radius: 100, img: './img/idol12.png', next: null }
 };
 
 // Game state
@@ -98,7 +102,7 @@ function init() {
   
 function createWalls() {
     const WALL_THICKNESS = getWallThickness();
-    const GAME_OVER_LINE_Y = canvas.height * 0.2; // ví dụ: 20% chiều cao
+    const GAME_OVER_LINE_Y = canvas.height * 0.2;
 
     const walls = [
         // Tường dưới
@@ -127,7 +131,6 @@ function createWalls() {
 
     Matter.World.add(world, walls);
 }
-
 
 function createDice(x, y, type, isPreview = false) {
     console.log('Creating dice:', { x, y, type, isPreview });
