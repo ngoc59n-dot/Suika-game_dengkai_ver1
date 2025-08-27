@@ -11,9 +11,10 @@ const ctx = canvas.getContext("2d");
 // ---- CANVAS full màn hình
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+const GAME_OVER_LINE_Y = canvas.height * 0.2; // 20% from top // 80% of canvas height
 
 // ---- WALL_THICKNESS linh hoạt
-let WALL_THICKNESS = Math.max(40, Math.floor(canvas.width * 0.02));
+let WALL_THICKNESS = Math.max(40, Math.floor(canvas.height * 0.05));
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
