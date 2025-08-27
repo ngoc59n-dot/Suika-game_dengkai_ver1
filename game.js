@@ -6,10 +6,15 @@ const Events = Matter.Events;
 const Body = Matter.Body;
 
 // Game constants
-const CANVAS_WIDTH = 400;
-const CANVAS_HEIGHT = 600;
-const WALL_THICKNESS = 20;
-const GAME_OVER_LINE_Y = CANVAS_HEIGHT * 0.2; // 20% from top // 80% of canvas height
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
 
 const DICE_TYPES = {// Dice types and their properties
   'D2':       { radius: 25, img: '/Suika-game_dengkai_ver1/img/idol1.png', next: 'D4' },
