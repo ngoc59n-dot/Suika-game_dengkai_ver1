@@ -3,7 +3,7 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden; /* tránh scrollbar */
+  overflow: hidden; 
 }
 
 .game-container {
@@ -46,7 +46,7 @@ html, body {
 
 #gameCanvas {
   display: block;
-  background-color: #FFD580;  /* cam nhạt */
+  background-color: #FFD580;  
   border: 4px solid #E67E22;
   border-radius: 10px;
 }
