@@ -83,67 +83,28 @@ function init() {
 
     // Create walls
     function getWallThickness() {
-    // ít nhất 30px, chiếm 2% chiều rộng canvas
     return Math.max(30, canvas.width * 0.02);
 }
-
+  
 function createWalls() {
-    const wallThickness = getWallThickness();
+    const WALL_THICKNESS = getWallThickness();
+    const GAME_OVER_LINE_Y = canvas.height * 0.2; // ví dụ: 20% chiều cao
 
-    // Tường trái
-    world.addBody(new p2.Body({
-        mass: 0,
-        position: [0 - wallThickness / 2, canvas.height / 2]
-    }).addShape(new p2.Box({
-        width: wallThickness,
-        height: canvas.height
-    })));
-
-    // Tường phải
-    world.addBody(new p2.Body({
-        mass: 0,
-        position: [canvas.width + wallThickness / 2, canvas.height / 2]
-    }).addShape(new p2.Box({
-        width: wallThickness,
-        height: canvas.height
-    })));
-
-    // Sàn dưới
-    world.addBody(new p2.Body({
-        mass: 0,
-        position: [canvas.width / 2, canvas.height + wallThickness / 2]
-    }).addShape(new p2.Box({
-        width: canvas.width,
-        height: wallThickness
-    })));
-
-    // Start the engine and renderer
-    Engine.run(engine);
-    Render.run(render);
-
-    // Setup event listeners
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('click', handleClick);
-    Events.on(engine, 'collisionStart', handleCollision);
-
-    // Create first dice and start game loop
-    createNextDice();
-    gameLoop();
-}
-
-function createWalls() {
     const walls = [
-        // Bottom wall
-        Bodies.rectangle(canvas.width/2, canvas.height + WALL_THICKNESS/2, canvas.width, WALL_THICKNESS, 
-            { isStatic: true }),
-        // Left wall
-        Bodies.rectangle(-WALL_THICKNESS/2, canvas.height/2, WALL_THICKNESS, canvas.height, 
-            { isStatic: true }),
-        // Right wall
-        Bodies.rectangle(canvas.width + WALL_THICKNESS/2, canvas.height/2, WALL_THICKNESS, canvas.height, 
-            { isStatic: true }),
-        // Game over line (visual only)
-        Bodies.rectangle(canvas.width/2, GAME_OVER_LINE_Y, canvas.width - WALL_THICKNESS * 2, 4, {
+        // Tường dưới
+        Matter.Bodies.rectangle(canvas.width / 2, canvas.height + WALL_THICKNESS / 2, canvas.width, WALL_THICKNESS, {
+            isStatic: true
+        }),
+        // Tường trái
+        Matter.Bodies.rectangle(-WALL_THICKNESS / 2, canvas.height / 2, WALL_THICKNESS, canvas.height, {
+            isStatic: true
+        }),
+        // Tường phải
+        Matter.Bodies.rectangle(canvas.width + WALL_THICKNESS / 2, canvas.height / 2, WALL_THICKNESS, canvas.height, {
+            isStatic: true
+        }),
+        // Đường giới hạn Game Over
+        Matter.Bodies.rectangle(canvas.width / 2, GAME_OVER_LINE_Y, canvas.width - WALL_THICKNESS * 2, 4, {
             isStatic: true,
             isSensor: true,
             render: {
@@ -153,8 +114,18 @@ function createWalls() {
             label: 'gameOverLine'
         })
     ];
-    World.add(world, walls);
+
+    Matter.World.add(world, walls);
 }
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Xóa tất cả vật thể cũ
+    Matter.World.clear(world, false);
+    createWalls();
+}
+
 
 function createDice(x, y, type, isPreview = false) {
     console.log('Creating dice:', { x, y, type, isPreview });
