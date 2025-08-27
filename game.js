@@ -8,28 +8,27 @@ const Body = Matter.Body;
 // Game constants
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-// ---- CANVAS full màn hình
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-const GAME_OVER_LINE_Y = canvas.height * 0.2; // 20% từ đỉnh
+const GAME_OVER_LINE_Y = canvas.height * 0.2; 
 function getWallThickness() {
     return Math.max(30, canvas.width * 0.02);
 }
-// ---- WALL_THICKNESS linh hoạt
+
 let WALL_THICKNESS = Math.max(40, Math.floor(canvas.height * 0.05));
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // Kiểm tra nếu 'world' đã được khởi tạo trước khi sử dụng
+    
     if (world) {
         Matter.World.clear(world, false);
         createWalls();
     }
 }
 
-// Sửa lỗi: Đảm bảo chỉ gọi resizeCanvas sau khi 'world' được khởi tạo
 window.addEventListener("resize", () => {
     if (engine && world) {
         resizeCanvas();
@@ -91,19 +90,19 @@ function createWalls() {
     const GAME_OVER_LINE_Y = canvas.height * 0.2;
 
     const walls = [
-        // Tường dưới
+        
         Matter.Bodies.rectangle(canvas.width / 2, canvas.height + WALL_THICKNESS / 2, canvas.width, WALL_THICKNESS, {
             isStatic: true
         }),
-        // Tường trái
+        
         Matter.Bodies.rectangle(-WALL_THICKNESS / 2, canvas.height / 2, WALL_THICKNESS, canvas.height, {
             isStatic: true
         }),
-        // Tường phải
+        
         Matter.Bodies.rectangle(canvas.width + WALL_THICKNESS / 2, canvas.height / 2, WALL_THICKNESS, canvas.height, {
             isStatic: true
         }),
-        // Đường giới hạn Game Over
+        
         Matter.Bodies.rectangle(canvas.width / 2, GAME_OVER_LINE_Y, canvas.width - WALL_THICKNESS * 2, 4, {
             isStatic: true,
             isSensor: true,
