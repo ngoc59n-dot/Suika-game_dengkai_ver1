@@ -20,9 +20,8 @@ function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // Xóa tất cả vật thể cũ
+    // Kiểm tra nếu 'world' đã được khởi tạo trước khi sử dụng
     if (world) {
-        // Xóa tất cả vật thể cũ nếu thế giới đã được khởi tạo
         Matter.World.clear(world, false);
         createWalls();
     }
