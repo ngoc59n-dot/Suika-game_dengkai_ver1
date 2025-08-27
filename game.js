@@ -66,8 +66,8 @@ function init() {
         canvas: document.getElementById('gameCanvas'),
         engine: engine,
         options: {
-            width: CANVAS_WIDTH,
-            height: CANVAS_HEIGHT,
+            width: canvas.width,
+            height: canvas.height,
             wireframes: false,
             background: '#34495e'
         }
@@ -93,16 +93,16 @@ function init() {
 function createWalls() {
     const walls = [
         // Bottom wall
-        Bodies.rectangle(CANVAS_WIDTH/2, CANVAS_HEIGHT + WALL_THICKNESS/2, CANVAS_WIDTH, WALL_THICKNESS, 
+        Bodies.rectangle(canvas.width/2, canvas.height + WALL_THICKNESS/2, canvas.width, WALL_THICKNESS, 
             { isStatic: true }),
         // Left wall
-        Bodies.rectangle(-WALL_THICKNESS/2, CANVAS_HEIGHT/2, WALL_THICKNESS, CANVAS_HEIGHT, 
+        Bodies.rectangle(-WALL_THICKNESS/2, canvas.height/2, WALL_THICKNESS, canvas.height, 
             { isStatic: true }),
         // Right wall
-        Bodies.rectangle(CANVAS_WIDTH + WALL_THICKNESS/2, CANVAS_HEIGHT/2, WALL_THICKNESS, CANVAS_HEIGHT, 
+        Bodies.rectangle(canvas.width + WALL_THICKNESS/2, canvas.height/2, WALL_THICKNESS, canvas.height, 
             { isStatic: true }),
         // Game over line (visual only)
-        Bodies.rectangle(CANVAS_WIDTH/2, GAME_OVER_LINE_Y, CANVAS_WIDTH - WALL_THICKNESS * 2, 4, {
+        Bodies.rectangle(canvas.width/2, GAME_OVER_LINE_Y, canvas.width - WALL_THICKNESS * 2, 4, {
             isStatic: true,
             isSensor: true,
             render: {
