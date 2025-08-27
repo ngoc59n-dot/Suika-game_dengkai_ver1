@@ -12,7 +12,9 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 const GAME_OVER_LINE_Y = canvas.height * 0.2; // 20% từ đỉnh
-
+function getWallThickness() {
+    return Math.max(30, canvas.width * 0.02);
+}
 // ---- WALL_THICKNESS linh hoạt
 let WALL_THICKNESS = Math.max(40, Math.floor(canvas.height * 0.05));
 
@@ -62,24 +64,12 @@ let isInitialized = false;
 // Initialize the game
 function init() {
     console.log('Initializing game...');
-    // Clean up everything first
     cleanup();
-    
-    // Create fresh engine and world
     engine = Engine.create();
     world = engine.world;
     world.gravity.y = 1;
-    
-    // Set initial random dice type
     nextDiceType = getRandomDiceType();
-    
-    console.log('Game state after init:', {
-        nextDiceType,
-        gameActive,
-        score
-    });
 
-    // Create renderer
     render = Render.create({
         canvas: document.getElementById('gameCanvas'),
         engine: engine,
@@ -91,11 +81,7 @@ function init() {
         }
     });
 
-    // Create walls
-    function getWallThickness() {
-    return Math.max(30, canvas.width * 0.02);
-    }
-    createWalls();
+    createWalls(); 
     Events.on(engine, 'collisionStart', handleCollision);
     requestAnimationFrame(gameLoop);
 }
