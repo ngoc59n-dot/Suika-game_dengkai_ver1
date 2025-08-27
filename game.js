@@ -21,8 +21,11 @@ function resizeCanvas() {
     canvas.height = window.innerHeight;
 
     // Xóa tất cả vật thể cũ
-    Matter.World.clear(world, false);
-    createWalls();
+    if (world) {
+        // Xóa tất cả vật thể cũ nếu thế giới đã được khởi tạo
+        Matter.World.clear(world, false);
+        createWalls();
+    }
 }
 
 window.addEventListener("resize", resizeCanvas);
