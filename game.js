@@ -74,7 +74,40 @@ function init() {
     });
 
     // Create walls
-    createWalls();
+    function getWallThickness() {
+    // ít nhất 30px, chiếm 2% chiều rộng canvas
+    return Math.max(30, canvas.width * 0.02);
+}
+
+function createWalls() {
+    const wallThickness = getWallThickness();
+
+    // Tường trái
+    world.addBody(new p2.Body({
+        mass: 0,
+        position: [0 - wallThickness / 2, canvas.height / 2]
+    }).addShape(new p2.Box({
+        width: wallThickness,
+        height: canvas.height
+    })));
+
+    // Tường phải
+    world.addBody(new p2.Body({
+        mass: 0,
+        position: [canvas.width + wallThickness / 2, canvas.height / 2]
+    }).addShape(new p2.Box({
+        width: wallThickness,
+        height: canvas.height
+    })));
+
+    // Sàn dưới
+    world.addBody(new p2.Body({
+        mass: 0,
+        position: [canvas.width / 2, canvas.height + wallThickness / 2]
+    }).addShape(new p2.Box({
+        width: canvas.width,
+        height: wallThickness
+    })));
 
     // Start the engine and renderer
     Engine.run(engine);
