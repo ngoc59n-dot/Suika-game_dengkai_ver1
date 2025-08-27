@@ -8,8 +8,12 @@ const Body = Matter.Body;
 // Game constants
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-// ---- WALL_THICKNESS linh hoạt + canvas full màn hình
-let WALL_THICKNESS = 40; // fallback ban đầu
+// ---- CANVAS full màn hình
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// ---- WALL_THICKNESS linh hoạt
+let WALL_THICKNESS = Math.max(40, Math.floor(canvas.width * 0.02));
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
