@@ -18,22 +18,35 @@ function getWallThickness() {
 
 let WALL_THICKNESS = Math.max(40, Math.floor(canvas.height * 0.05));
 
+// === Responsive resize ===
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const newWidth = Math.min(window.innerWidth * 0.8, 800);   // rộng tối đa 800px
+    const newHeight = Math.min(window.innerHeight * 0.8, 1200); // cao tối đa 1200px
 
-    
-    if (world) {
-        Matter.World.clear(world, false);
-        createWalls();
-    }
+    // Cập nhật kích thước canvas
+    render.canvas.width = newWidth;
+    render.canvas.height = newHeight;
+    render.options.width = newWidth;
+    render.options.height = newHeight;
+
+    // Xóa walls cũ
+    World.remove(engine.world, walls);
+
+    // Tạo walls mới theo size mới
+    walls = [
+        Bodies.rectangle(newWidth / 2, newHeight + 25, newWidth, 50, { isStatic: true }), // bottom
+        Bodies.rectangle(-25, newHeight / 2, 50, newHeight, { isStatic: true }),          // left
+        Bodies.rectangle(newWidth + 25, newHeight / 2, 50, newHeight, { isStatic: true }) // right
+    ];
+
+    World.add(engine.world, walls);
 }
 
-window.addEventListener("resize", () => {
-    if (engine && world) {
-        resizeCanvas();
-    }
-});
+// Gọi 1 lần ngay khi load
+resizeCanvas();
+
+// Lắng nghe khi resize màn hình
+window.addEventListener('resize', resizeCanvas);
 
 const DICE_TYPES = {
   'D2':       { radius: 25, img: './img/idol1.png', next: 'D4' },
